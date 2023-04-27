@@ -2,13 +2,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JSP - Hello World</title>
-  <link rel="stylesheet" href="css/style.css">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<h1>Company Employee</h1>
-<br/>
-<a href="/companies">Companies</a> |
-<a href="/employees">Employees</a>
+<%
+    if (session.getAttribute("user") != null){
+        response.sendRedirect("/home");
+    }
+    String msg = (String) session.getAttribute("msg");
+%>
+<% if (msg != null){%>
+<span style="color: red"><%=msg%></span><br>
+<%
+session.removeAttribute("msg");
+}%>
+Login:
+<form action="/login" method="post">
+    <input name="email" type="email" placeholder="email"><br>
+    <input name="password" type="password" placeholder="password"><br>
+    <input type="submit" name="Login">
+</form>
+<a href="/register.jsp">Register</a>
 </body>
 </html>

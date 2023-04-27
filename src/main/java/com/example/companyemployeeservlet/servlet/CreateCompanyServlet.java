@@ -14,6 +14,7 @@ import java.io.IOException;
 public class CreateCompanyServlet extends HttpServlet {
 
     private CompanyManager companyManager = new CompanyManager();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("WEB-INF/createCompany.jsp").forward(req, resp);
@@ -21,6 +22,7 @@ public class CreateCompanyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         String country = req.getParameter("country");
         Company company = new Company();
