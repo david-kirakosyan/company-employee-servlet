@@ -1,19 +1,27 @@
 package com.example.companyemployeeservlet.servlet;
 
+import com.example.companyemployeeservlet.constants.SharedConstants;
 import com.example.companyemployeeservlet.manager.CompanyManager;
 import com.example.companyemployeeservlet.manager.EmployeeManager;
 import com.example.companyemployeeservlet.model.Company;
 import com.example.companyemployeeservlet.model.Employee;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/createEmployee")
+@MultipartConfig(
+        maxFileSize = 1024 * 1024 * 5, // 5mb
+        maxRequestSize = 1024 * 1024 * 10,
+        fileSizeThreshold = 1024 * 1024 * 1
+)
 public class CreateEmployeeServlet extends HttpServlet {
 
     private EmployeeManager employeeManager = new EmployeeManager();
@@ -33,11 +41,18 @@ public class CreateEmployeeServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String email = req.getParameter("email");
         int id = Integer.parseInt(req.getParameter("company_id"));
+        Part profilePicPart = req.getPart("profilePic");
+        String picName = null;
+        if (profilePicPart != null && profilePicPart.getSize() > 0) {
+             picName = System.nanoTime() + "_" + profilePicPart.getSubmittedFileName();
+            profilePicPart.write(SharedConstants.UPLOAD_FOLDER + picName);
+        }
         Company companyId = companyManager.getById(id);
         Employee employee = new Employee();
         employee.setName(name);
         employee.setSurname(surname);
         employee.setEmail(email);
+        employee.setPicName(picName);
         employee.setCompany(companyId);
         employeeManager.save(employee);
         resp.sendRedirect("/employees");

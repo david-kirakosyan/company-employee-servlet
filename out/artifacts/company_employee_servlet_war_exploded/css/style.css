@@ -1,0 +1,14 @@
+body{
+    background-image: url("../img/fone.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+table, td, th {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
