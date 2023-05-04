@@ -9,13 +9,18 @@
     if (session.getAttribute("user") != null){
         response.sendRedirect("/home");
     }
+
+    String msg = (String) request.getAttribute("msg");
 %>
+<% if (msg != null){%>
+<samp style="color: red"><%=msg%></samp>
+<%}%>
 Register:
 <form action="/register" method="post">
-    <input name="name" type="text" placeholder="name"><br>
-    <input name="surname" type="text" placeholder="surname"><br>
-    <input name="email" type="email" placeholder="email"><br>
-    <input name="password" type="password" placeholder="password"><br>
+    <input name="name" type="text" placeholder="name" required><br>
+    <input name="surname" type="text" placeholder="surname" required><br>
+    <input name="email" type="email" placeholder="email" required><br>
+    <input name="password" type="password" placeholder="password" required><br>
     <select name="type">
         <option value="ADMIN">ADMIN</option>
         <option value="USER">USER</option>
